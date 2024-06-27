@@ -1,37 +1,44 @@
 #include <iostream>
-#include <Windows.h>
-class Людина {
+
+class Human {
 public:
-    virtual ~Людина() {} 
+    virtual ~Human() {}
     virtual void info() const {
-        std::cout << "Це об'єкт класу Людина\n";
+        std::cout << "This is an object of class Human." << std::endl;
     }
 };
 
-class Працівник : public Людина {
+class Employee : public Human {
 public:
     void info() const override {
-        std::cout << "Це об'єкт класу Працівник\n";
+        std::cout << "This is an object of class Employee." << std::endl;
+    }
+
+    void employeeWork() {
+        std::cout << "I work as an Employee." << std::endl;
     }
 };
 
 int main() {
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
-    Працівник worker;
-    Людина* humanPtr = &worker; 
-    Працівник* workerPtr = dynamic_cast<Працівник*>(humanPtr);  
+    Human human;
+    Employee employee;
+    Human* humanPtr = &employee;
+    Employee* employeePtr = dynamic_cast<Employee*>(humanPtr);
 
-    if (workerPtr) {
-        std::cout << "Успішно приведено Людина& до Працівник& через dynamic_cast\n";
+    if (employeePtr) {
+        std::cout << "Successfully casted Human& to Employee&." << std::endl;
+        employeePtr->employeeWork();
     }
     else {
-        std::cout << "dynamic_cast не вдалося привести Людина& до Працівник&\n";
+        std::cout << "Failed to cast Human& to Employee&." << std::endl;
     }
-    Людина& humanRef = worker;
-    Працівник& workerRef = dynamic_cast<Працівник&>(humanRef);
 
-    workerRef.info();
+    Employee employee2;
+    Human& humanRef = employee2;
+    Employee& employeeRef = dynamic_cast<Employee&>(humanRef);
+    humanPtr->info(); 
+    employeePtr->info(); 
+    employeeRef.info();
 
     return 0;
 }
